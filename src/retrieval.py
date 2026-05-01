@@ -6,24 +6,65 @@ Koib-V-4.1 — Модуль поиска и переранжирования
 Автоматическая маршрутизация запросов к нужному индексу.
 """
 
+import json
 import re
 import logging
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
+from pathlib import Path
 
 from langchain_core.documents import Document
 
-from .indexing import IndexBuilder, DocStore, BM25Index
-from .utils import clean_text
+from src.indexing import IndexBuilder, DocStore, BM25Index
+from src.utils import clean_text
 from config import (
-    INDEX_DIR, DOCSTORE_DIR,
+    INDEX_DIR, DOCSTORE_DIR, METADATA_DIR,
     QUERY_PREFIX, PASSAGE_PREFIX,
     VECTOR_SEARCH_K, BM25_SEARCH_K, FINAL_TOP_K,
     HYBRID_ALPHA, USE_RERANKER, RERANKER_MODEL,
-    USE_HYDE, get_device,
+    USE_HYDE, HYDE_CACHE_FILE, get_device,
 )
 
 logger = logging.getLogger("koib.retrieval")
+
+
+# ═══════════════════════════════════════════════════════════════
+# Кэш для HyDE
+# ═══════════════════════════════════════════════════════════════
+
+class HydeCache:
+    """Кэш для гипотетических ответов HyDE."""
+    
+    def __init__(self, cache_file: Optional[Path] = None):
+        self.cache_file = cache_file or HYDE_CACHE_FILE
+        self._cache: Dict[str, str] = {}
+        self._load()
+    
+    def _load(self) -> None:
+        """Загрузить кэш из файла."""
+        if self.cache_file.exists():
+            try:
+                with open(self.cache_file, 'r', encoding='utf-8') as f:
+                    self._cache = json.load(f)
+                logger.info(f"HyDE кэш загружен: {len(self._cache)} записей")
+            except Exception as exc:
+                logger.warning(f"Ошибка загрузки HyDE кэша: {exc}")
+                self._cache = {}
+    
+    def _save(self) -> None:
+        """Сохранить кэш в файл."""
+        self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.cache_file, 'w', encoding='utf-8') as f:
+            json.dump(self._cache, f, ensure_ascii=False, indent=2)
+    
+    def get(self, query: str) -> Optional[str]:
+        """Получить кэшированный ответ."""
+        return self._cache.get(query)
+    
+    def set(self, query: str, hypothetical: str) -> None:
+        """Сохранить ответ в кэш."""
+        self._cache[query] = hypothetical
+        self._save()
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -141,6 +182,7 @@ class HybridRetriever:
         self.index_builder = index_builder or IndexBuilder()
         self.index_builder.load()
         self._reranker = None
+        self._hyde_cache = HydeCache()
 
     def _get_reranker(self):
         """Ленивая загрузка переранжировщика."""
@@ -371,9 +413,17 @@ class HybridRetriever:
         HyDE (Hypothetical Document Embeddings):
         Генерируем гипотетический ответ на запрос и используем его
         для векторного поиска вместо оригинального запроса.
+        
+        Использует кэширование: если запрос уже был, возвращаем сохранённый ответ.
         """
+        # Проверяем кэш
+        cached = self._hyde_cache.get(query)
+        if cached:
+            logger.info(f"HyDE: использован кэшированный ответ для '{query[:50]}...'")
+            return cached
+        
         try:
-            from .generation import LLMClient
+            from src.generation import LLMClient
             client = LLMClient()
             hypothetical = client.generate(
                 f"Ответь кратко на вопрос, как если бы ты был экспертом "
@@ -382,6 +432,8 @@ class HybridRetriever:
             )
             if hypothetical and len(hypothetical) > 20:
                 logger.info(f"HyDE: сгенерирован гипотетический ответ ({len(hypothetical)} символов)")
+                # Сохраняем в кэш
+                self._hyde_cache.set(query, hypothetical)
                 return hypothetical
         except Exception as exc:
             logger.debug(f"HyDE не сработал: {exc}")

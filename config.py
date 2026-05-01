@@ -92,13 +92,17 @@ HYBRID_ALPHA = float(os.getenv("HYBRID_ALPHA", "0.6"))
 # Использовать ли переранжирование
 USE_RERANKER = os.getenv("USE_RERANKER", "true").lower() == "true"
 
+# Обновлённый reranker: BAAI/bge-reranker-v2-m3 (лучшее качество для русского)
 RERANKER_MODEL = os.getenv(
     "RERANKER_MODEL",
-    "cointegrated/rubert-tiny2"   # лёгкая модель для русского, можно заменить на bge-reranker
+    "BAAI/bge-reranker-v2-m3"
 )
 
 # Использовать ли HyDE
 USE_HYDE = os.getenv("USE_HYDE", "false").lower() == "true"
+
+# Кэш для HyDE (файл для сохранения кэша)
+HYDE_CACHE_FILE = METADATA_DIR / "hyde_cache.json"
 
 
 # ═══════════════════════════════════════════════════════════════
