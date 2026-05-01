@@ -321,6 +321,8 @@ class IndexBuilder:
             meta = dict(c.metadata)
             meta["chunk_id"] = c.chunk_id
             meta["chunk_type"] = c.chunk_type
+            # ВАЖНО: добавляем content в метаданные для корректного поиска
+            meta["content"] = c.content
             all_metas.append(meta)
 
         if all_texts:
