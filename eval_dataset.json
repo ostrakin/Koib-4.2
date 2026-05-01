@@ -1,0 +1,142 @@
+[
+  {
+    "id": "q001",
+    "question": "Как включить КОИБ-2010?",
+    "koib_model": "koib2010",
+    "category": "Включение",
+    "reference_answer": "Для включения КОИБ-2010 нажмите кнопку питания на передней панели"
+  },
+  {
+    "id": "q002",
+    "question": "Какие требования к электропитанию КОИБ-2017А?",
+    "koib_model": "koib2017a",
+    "category": "Электропитание",
+    "reference_answer": "КОИБ-2017А требует напряжение 220В ±10%, частота 50Гц"
+  },
+  {
+    "id": "q003",
+    "question": "Что делать при ошибке сканирования?",
+    "koib_model": "",
+    "category": "Ошибки",
+    "reference_answer": null
+  },
+  {
+    "id": "q004",
+    "question": "Какие технические характеристики КОИБ-2010?",
+    "koib_model": "koib2010",
+    "category": "Характеристики",
+    "reference_answer": null
+  },
+  {
+    "id": "q005",
+    "question": "Как провести калибровку сканера КОИБ-2017Б?",
+    "koib_model": "koib2017b",
+    "category": "Калибровка",
+    "reference_answer": null
+  },
+  {
+    "id": "q006",
+    "question": "Какие параметры электропитания указаны в таблице характеристик?",
+    "koib_model": "",
+    "category": "Характеристики",
+    "reference_answer": null
+  },
+  {
+    "id": "q007",
+    "question": "Какая формула используется для расчёта скорости обработки бюллетеней?",
+    "koib_model": "",
+    "category": "Формулы",
+    "reference_answer": null
+  },
+  {
+    "id": "q008",
+    "question": "Покажите схему подключения КОИБ-2017А к сети",
+    "koib_model": "koib2017a",
+    "category": "Схемы",
+    "reference_answer": null
+  },
+  {
+    "id": "q009",
+    "question": "Как выполнить загрузку избирательных бюллетеней?",
+    "koib_model": "",
+    "category": "Процедуры",
+    "reference_answer": null
+  },
+  {
+    "id": "q010",
+    "question": "Какие коды ошибок возможны при работе КОИБ-2010?",
+    "koib_model": "koib2010",
+    "category": "Ошибки",
+    "reference_answer": null
+  },
+  {
+    "id": "q011",
+    "question": "Как проверить целостность данных после сканирования?",
+    "koib_model": "",
+    "category": "Процедуры",
+    "reference_answer": null
+  },
+  {
+    "id": "q012",
+    "question": "Какие габаритные размеры и вес КОИБ-2017Б указаны в спецификации?",
+    "koib_model": "koib2017b",
+    "category": "Характеристики",
+    "reference_answer": null
+  },
+  {
+    "id": "q013",
+    "question": "Как подключить принтер к КОИБ-2010?",
+    "koib_model": "koib2010",
+    "category": "Подключение",
+    "reference_answer": null
+  },
+  {
+    "id": "q014",
+    "question": "Какие режимы работы поддерживает КОИБ-2017А?",
+    "koib_model": "koib2017a",
+    "category": "Режимы",
+    "reference_answer": null
+  },
+  {
+    "id": "q015",
+    "question": "Как распечатать протокол результатов подсчёта?",
+    "koib_model": "",
+    "category": "Процедуры",
+    "reference_answer": null
+  },
+  {
+    "id": "q016",
+    "question": "Какие условия хранения и транспортировки КОИБ указаны в документации?",
+    "koib_model": "",
+    "category": "Хранение",
+    "reference_answer": null
+  },
+  {
+    "id": "q017",
+    "question": "Как выполнить сброс счётчиков КОИБ-2010?",
+    "koib_model": "koib2010",
+    "category": "Процедуры",
+    "reference_answer": null
+  },
+  {
+    "id": "q018",
+    "question": "Какие таблицы с параметрами окружающей среды приведены в документации?",
+    "koib_model": "",
+    "category": "Характеристики",
+    "reference_answer": null
+  },
+  {
+    "id": "q019",
+    "question": "Как провести диагностику неисправностей КОИБ-2017Б?",
+    "koib_model": "koib2017b",
+    "category": "Диагностика",
+    "reference_answer": null
+  },
+  {
+    "id": "q020",
+    "question": "Какие гарантийные обязательства указаны в руководстве?",
+    "koib_model": "",
+    "category": "Гарантия",
+    "reference_answer": null
+  }
+]
